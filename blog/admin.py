@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post, Comment
 # Register your models here.
 
 class PostAdmin(admin.ModelAdmin):
@@ -12,4 +12,11 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'publish'  #create a date heirachy that the model tries to filter
     ordering = ['status', 'publish']    #ordering the tanle based on status and publsh fied
 
-admin.site.register(Post, PostAdmin)    #registering the Post model inheriting from he PostAdmin class
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'post', 'created', 'active')
+    list_filter = ('active', 'created', 'updated')
+    search_fields = ('name', 'email', 'body')
+
+
+admin.site.register(Post, PostAdmin)    #registering the Post model inheriting from the PostAdmin class
+admin.site.register(Comment, CommentAdmin) #registering the Comment model inheriting from the CommentAdmin class

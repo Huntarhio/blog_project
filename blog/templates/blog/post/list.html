@@ -6,12 +6,15 @@
       <h2>
         <a
         href="{{ post.get_absolute_url }}">
-        {{ post.title }}
+        {{ post.title|upper }}
         </a>
       </h2>
+      <p class="tags">Tags: {{ post.tags.all|join:", " }}</p>
       <p class="date">
         Published {{ post.publish }} by {{ post.author }}
       </p>
     {{ post.body|truncatewords:30|linebreaks }}
     {% endfor %}
+    <!-- {% include "pagination.html" with page=posts %} -->
+    {% include "pagination.html" with page=posts %}
 {% endblock %}
