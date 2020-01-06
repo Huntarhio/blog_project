@@ -20,9 +20,19 @@ class Post(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published'),
         )       # creates a drop down list of status choices
+    CATEGORY_CHOICES = (
+        ('general', 'General'),
+        ('relationship', 'Sex and Relationship'),
+        ('technology', 'Technology'),
+        ('academics', 'Academics'),
+        ('politics', 'Politics')
+    )
     title = models.CharField(max_length=250)        # creates a charater field of title
     slug = models.SlugField(max_length=250,unique_for_date='publish')   #creates a slugfield whichs is what shows in the url
     author = models.ForeignKey(User,related_name='blog_posts')      #creates a foreignkey inheriting from the admin Users model
+    category = models.CharField(max_length=20,
+                                choices=CATEGORY_CHOICES,
+                                default='general' )
     body = models.TextField()   #creates the body of te field with a textfield
     publish = models.DateTimeField(default=timezone.now)    #creates a datetime field with the default as the current time of creation
     created = models.DateTimeField(auto_now_add=True)   #

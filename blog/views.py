@@ -6,9 +6,13 @@ from django.views.generic import ListView
 from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
 
+from taggit.models import Tag
+
+from django.db.models import Count
+
 
 # Create your views here.
-def post_list(request):
+def post_list(request, tag_slug=None):
     object_list = Post.published.all() # gets all the publihed posts in model using the custom manager created in the Post model
     tag = None
     if tag_slug:
@@ -51,12 +55,17 @@ def post_detail(request, year, month, day, post):
             new_comment.save()
     else:
         comment_form = CommentForm()
+    # List of similar posts
+    post_tags_ids = post.tags.values_list('id', flat=True)
+    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags','-publish')[:4]
 
     return render(request,
                 'blog/post/detail.html',
                 {'post': post,
                 'comments': comments,
-                'comment_form': comment_form})
+                'comment_form': comment_form,
+                'similar_posts': similar_posts})
     # return render(request,'blog/post/detail.html', {'post': post})
 
 
@@ -65,6 +74,18 @@ def post_detail(request, year, month, day, post):
 #     context_object_name = 'posts'
 #     paginate_by = 3
 #     template_name = 'blog/post/list.html'
+
+class SexListView(ListView):
+    queryset = Post.published.filter(category='relationship')
+    context_object_name = 'sex_posts'
+    paginate_by = 3
+    template_name = 'blog/post/sex.html'
+
+class TechListView(ListView):
+    queryset = Post.published.filter(category='technology')
+    context_object_name = 'tech_posts'
+    paginate_by = 3
+    template_name = 'blog/post/tech.html'
 
 def post_share(request, post_id):
     # Retrieve post by id
