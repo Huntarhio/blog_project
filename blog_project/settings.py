@@ -25,7 +25,7 @@ SECRET_KEY = '!8xa-x+e-gcdnqmc=k_xdfdr6c_7*k&d@(udb1sb((*v89ah39'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'www.localhost']
 
 SITE_ID = 1
 
@@ -82,8 +82,12 @@ WSGI_APPLICATION = 'blog_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'myblogdb',
+        'USER': 'huntarhio',
+        'PASSWORD': '14_56Eg020',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -107,6 +111,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
 # setting up an external SMTP server
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'adeotiadegboyega@gmail.com'

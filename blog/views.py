@@ -106,7 +106,7 @@ def post_share(request, post_id):
             # create a mail subject using the details submitted from the cleaned_data and also the
             subject = '{} ({}) recommends you reading "{}"'.format(cd['name'], cd['email'], post.title)
             message = 'Read "{}" at {}\n\n{}\'s comments: {}'.format(post.title, post_url, cd['name'], cd['comments'])
-            send_mail(subject, message, 'admin@myblog.com',[cd['to']])
+            send_mail(subject, message, 'adeotiadegboyega@gmail.com',[cd['to']])
             sent = True
     else:
         form = EmailPostForm()
