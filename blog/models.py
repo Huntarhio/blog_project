@@ -69,7 +69,7 @@ class Comment(models.Model):
     active = models.BooleanField(default=True) # to activate or deactivate a comment
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('-created',)
 
     def __str__(self):
         return 'Comment by {} on {}'.format(self.name, self.post)
